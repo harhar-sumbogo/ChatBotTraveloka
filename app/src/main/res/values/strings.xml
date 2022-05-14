@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Traveloka Chatbot</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="or">or</string>
+    <string name="login_with_google">Login with Google</string>
+    <string name="no_account">"Doesn't have account? "</string>
+    <string name="register">Register</string>
+    <string name="login_image">Login Image</string>
+    <string name="google_login">Google Login</string>
+    <string name="register_image">Register Image</string>
+    <string name="name">Name</string>
+    <string name="have_account">"Already have account? "</string>
+</resources>
