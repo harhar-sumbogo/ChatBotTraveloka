@@ -37,7 +37,8 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@+id/tv_login"
-        app:startIconDrawable="@drawable/ic_email">
+        app:hintAnimationEnabled="false"
+        app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/emailEditText"
@@ -45,6 +46,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:background="@drawable/bg_edit_text"
+            android:drawableStart="@drawable/custom_email_focused"
+            android:drawablePadding="12dp"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
             tools:ignore="SpeakableTextPresentCheck" />
@@ -60,7 +63,8 @@
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@+id/emailEditTextLayout"
         app:passwordToggleEnabled="true"
-        app:startIconDrawable="@drawable/ic_lock">
+        app:hintAnimationEnabled="false"
+        app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/passwordEditText"
@@ -68,6 +72,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPassword"
+            android:drawableStart="@drawable/custom_password_focused"
+            android:drawablePadding="12dp"
             android:hint="@string/password"
             android:background="@drawable/bg_edit_text"
             app:passwordToggleEnabled="true"

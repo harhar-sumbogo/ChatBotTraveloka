@@ -12,4 +12,7 @@
     <string name="register_image">Register Image</string>
     <string name="name">Name</string>
     <string name="have_account">"Already have account? "</string>
+    <string name="type_a_message">Type a message …</string>
+    <string name="send">Send</string>
+    <string name="chat">Chat</string>
 </resources>

@@ -26,9 +26,12 @@
             android:background="@drawable/edit_text_shadow"
             android:hint="@string/type_a_message"
             android:textColorHint="@color/black_traveloka"
-            android:inputType="text"
             android:minHeight="48dp"
+            android:textSize="14sp"
             android:padding="10dp"
+            android:lines="6"
+            android:inputType="textMultiLine"
+            android:maxLines ="6"
             android:importantForAutofill="no" />
 
         <ImageView
@@ -43,4 +46,12 @@
             android:contentDescription="@string/send" />
     </LinearLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="409dp"
+        android:layout_height="660dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

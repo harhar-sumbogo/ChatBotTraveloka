@@ -37,13 +37,16 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@+id/tv_register"
-        app:startIconDrawable="@drawable/ic_person">
+        app:hintAnimationEnabled="false"
+        app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/nameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_edit_text"
+            android:drawableStart="@drawable/custom_name_focused"
+            android:drawablePadding="12dp"
             android:ems="10"
             android:hint="@string/name"
             android:inputType="textEmailAddress"
@@ -59,13 +62,16 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@+id/nameEditTextLayout"
-        app:startIconDrawable="@drawable/ic_email">
+        app:hintAnimationEnabled="false"
+        app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/emailEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_edit_text"
+            android:drawableStart="@drawable/custom_email_focused"
+            android:drawablePadding="12dp"
             android:ems="10"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
@@ -82,7 +88,8 @@
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@+id/emailEditTextLayout"
         app:passwordToggleEnabled="true"
-        app:startIconDrawable="@drawable/ic_lock">
+        app:hintAnimationEnabled="false"
+        app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/passwordEditText"
@@ -92,8 +99,12 @@
             android:inputType="textPassword"
             android:hint="@string/password"
             android:background="@drawable/bg_edit_text"
+            android:drawableStart="@drawable/custom_password_focused"
+            android:drawablePadding="12dp"
             app:passwordToggleEnabled="true"
-            tools:ignore="SpeakableTextPresentCheck" />
+            tools:ignore="SpeakableTextPresentCheck"
+            app:hintAnimationEnabled="false"
+            app:hintEnabled="false"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatButton
