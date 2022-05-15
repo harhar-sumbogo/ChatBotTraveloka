@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="220dp"
+    android:layout_height="300dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginStart="32dp"
+    app:cardCornerRadius="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imagePromo"
+            android:layout_width="0dp"
+            android:layout_height="134dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:srcCompat="@tools:sample/avatars"/>
+        
+        <TextView
+            android:id="@+id/titlePromo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="The ONE Legian"
+            app:layout_constraintTop_toBottomOf="@id/imagePromo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/travelokaRating"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="8.5 / 10"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="@+id/titlePromo"
+            app:layout_constraintStart_toStartOf="@+id/titlePromo"
+            app:layout_constraintTop_toBottomOf="@id/titlePromo" />
+
+        <RatingBar
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:id="@+id/starsRating"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:rating="5"
+            android:isIndicator="false"
+            app:layout_constraintTop_toBottomOf="@id/travelokaRating"
+            app:layout_constraintStart_toStartOf="@id/travelokaRating"
+            app:layout_constraintEnd_toEndOf="@id/travelokaRating"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/discountPrice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Rp 540.000"
+            app:layout_constraintTop_toBottomOf="@id/starsRating"
+            app:layout_constraintStart_toStartOf="@id/starsRating"
+            app:layout_constraintEnd_toEndOf="@id/starsRating"
+            android:layout_marginTop="8dp"
+            android:textSize="10sp"/>
+
+        <TextView
+            android:id="@+id/realPrice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Rp 186.300"
+            app:layout_constraintTop_toBottomOf="@id/discountPrice"
+            app:layout_constraintStart_toStartOf="@id/discountPrice"
+            app:layout_constraintEnd_toEndOf="@id/discountPrice"
+            android:layout_marginTop="8dp"
+            android:textStyle="bold"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
