@@ -15,5 +15,4 @@
         android:layout_height="wrap_content"
         android:text="@string/dummy_message"
         android:layout_margin="16dp"/>
-
 </androidx.cardview.widget.CardView>
