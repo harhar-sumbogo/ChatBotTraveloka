@@ -125,31 +125,19 @@
         app:layout_constraintTop_toTopOf="@+id/tv_or"
         android:background="@android:color/darker_gray"/>
 
-    <LinearLayout
+    <Button
         android:id="@+id/btn_login_google"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginTop="14dp"
         android:background="@drawable/bg_button_login_google"
-        android:gravity="center_vertical|center"
-        android:orientation="horizontal"
+        android:text="@string/login_with_google"
+        app:icon="@drawable/ic_google"
+        app:iconGravity="textStart"
+        android:layout_marginTop="14dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/tv_or">
+        app:layout_constraintTop_toBottomOf="@+id/tv_or"/>
 
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginEnd="32dp"
-            android:src="@drawable/google"
-            android:contentDescription="@string/google_login" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/login_with_google"
-            android:textSize="16sp" />
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dp"
