@@ -23,13 +23,8 @@ class MainActivity : AppCompatActivity() {
             setLogo(R.drawable.logo_traveloka)
         }
 
-        binding.btnToLogin.setOnClickListener {
-            val i = Intent(this,LoginActivity::class.java)
-            startActivity(i)
-        }
-
-        binding.btnToRegister.setOnClickListener {
-            val i = Intent(this,RegisterActivity::class.java)
+        binding.btnChat.setOnClickListener {
+            val i = Intent(this,ChatActivity::class.java)
             startActivity(i)
         }
     }
@@ -42,8 +37,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_chat -> {
-                val i = Intent(this,ChatActivity::class.java)
+            R.id.menu_login -> {
+                val i = Intent(this,LoginActivity::class.java)
+                startActivity(i)
+                return true
+            }
+            R.id.menu_register -> {
+                val i = Intent(this,RegisterActivity::class.java)
                 startActivity(i)
                 return true
             }
