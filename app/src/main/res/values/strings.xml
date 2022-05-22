@@ -20,4 +20,5 @@
     <string name="splash">Traveloka Chatbot Logo Splash Screen</string>
     <string name="sign_out">Sign out</string>
     <string name="chat_bot_logo">Chat bot logo</string>
+    <string name="send_error">Failed to send message</string>
 </resources>

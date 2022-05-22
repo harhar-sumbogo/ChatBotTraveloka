@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import com.deva.bangkit_capstoneproject.chat.ChatActivity
 import com.deva.bangkit_capstoneproject.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -28,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnChat.setOnClickListener {
-            val i = Intent(this,ChatActivity::class.java)
+            val i = Intent(this, ChatActivity::class.java)
             startActivity(i)
         }
 

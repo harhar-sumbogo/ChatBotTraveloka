@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/abuChat"
-    tools:context=".ChatActivity">
+    tools:context=".chat.ChatActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -47,8 +47,9 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_chat"
         android:layout_width="409dp"
-        android:layout_height="660dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
