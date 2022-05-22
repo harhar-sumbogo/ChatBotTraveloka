@@ -13,25 +13,25 @@ import com.firebase.ui.database.FirebaseRecyclerOptions
 class ChatAdapter(
     options: FirebaseRecyclerOptions<Message>,
     private val currentUser: String?
-) : FirebaseRecyclerAdapter<Message, RecyclerView.ViewHolder>(options){
+) : FirebaseRecyclerAdapter<Message, RecyclerView.ViewHolder>(options) {
 
     override fun getItemViewType(position: Int): Int {
         val message = getItem(position)
         val sender = message.name
 
         return if (sender == currentUser) {
-            USER;
-        }else {
-            BOT;
+            USER
+        } else {
+            BOT
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return  if (viewType == USER) {
+        return if (viewType == USER) {
             val view = inflater.inflate(R.layout.card_message_user, parent, false)
             MessageUserViewHolder(CardMessageUserBinding.bind(view))
-        }else {
+        } else {
             val view = inflater.inflate(R.layout.card_message_bot, parent, false)
             MessageBotViewHolder(CardMessageBotBinding.bind(view))
         }
@@ -40,13 +40,13 @@ class ChatAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, model: Message) {
         if (holder is MessageUserViewHolder) {
             holder.bind(model)
-        }else if (holder is MessageBotViewHolder) {
+        } else if (holder is MessageBotViewHolder) {
             holder.bind(model)
         }
     }
 
-    companion object{
-        private const val USER = 100;
-        private const val BOT = 200;
+    companion object {
+        private const val USER = 100
+        private const val BOT = 200
     }
 }
