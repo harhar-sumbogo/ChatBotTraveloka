@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "639577604375-g6ogo46qo4rii969pvuisesj4ss9jpcq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.deva.bangkit_capstoneproject",
+            "certificate_hash": "63b35008b32f39e2c0159d328159b1272da9d61a"
+          }
+        },
+        {
           "client_id": "639577604375-o8jf7ekjk6s15htrgm9g7nh7pmsuhag5.apps.googleusercontent.com",
           "client_type": 3
         }
