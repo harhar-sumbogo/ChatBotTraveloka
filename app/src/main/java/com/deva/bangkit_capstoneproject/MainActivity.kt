@@ -46,28 +46,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.option_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.menu_login -> {
-                val i = Intent(this,LoginActivity::class.java)
-                startActivity(i)
-                return true
-            }
-            R.id.menu_register -> {
-                val i = Intent(this,RegisterActivity::class.java)
-                startActivity(i)
-                return true
-            }
-            else -> return true
-        }
-    }
-
     private fun signOut() {
         auth.signOut()
         startActivity(Intent(this, LoginActivity::class.java))
