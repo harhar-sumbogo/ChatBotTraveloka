@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/img_register"
         android:layout_width="324dp"
-        android:layout_height="190dp"
+        android:layout_height="180dp"
         android:src="@drawable/regsiter"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
