@@ -66,7 +66,7 @@
         app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/emailEditText"
+            android:id="@+id/emailEditTextRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_edit_text"
@@ -89,10 +89,11 @@
         app:layout_constraintTop_toBottomOf="@+id/emailEditTextLayout"
         app:passwordToggleEnabled="true"
         app:hintAnimationEnabled="false"
-        app:hintEnabled="false">
+        app:hintEnabled="false"
+        app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/passwordEditText"
+            android:id="@+id/passwordEditTextRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"

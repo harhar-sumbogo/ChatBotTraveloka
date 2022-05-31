@@ -41,7 +41,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_login">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/emailEditText"
+            android:id="@+id/emailEditTextLogin"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:background="@drawable/bg_edit_text"
@@ -68,7 +68,7 @@
         app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/passwordEditText"
+            android:id="@+id/passwordEditTextLogin"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:ems="10"

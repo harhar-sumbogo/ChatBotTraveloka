@@ -5,8 +5,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatDelegate
 import com.deva.bangkit_capstoneproject.databinding.ActivityLoginBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -17,6 +18,8 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -48,6 +51,55 @@ class LoginActivity : AppCompatActivity() {
         binding.btnLoginGoogle.setOnClickListener {
             signIn()
         }
+
+        val loginButton: Button = findViewById(R.id.btn_login)
+
+        loginButton.setOnClickListener {
+            performLogin()
+        }
+    }
+
+    private fun performLogin() {
+        val email = binding.emailEditTextLogin.text.toString()
+        val password = binding.passwordEditTextLogin.text.toString()
+
+        //check whether the field is filled
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Please fill all fields!", Toast.LENGTH_SHORT)
+                .show()
+            return
+        } else if(!isEmailValid(email)){
+            Toast.makeText(this, "Must valid email", Toast.LENGTH_SHORT)
+                .show()
+            return
+        } else if (password.length<6){
+            Toast.makeText(this, "Password at least 6 character", Toast.LENGTH_SHORT)
+                .show()
+            return
+        }
+
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+
+                    Toast.makeText(
+                        baseContext, "login success.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Toast.makeText(baseContext, "Authentication failed.",
+                        Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(baseContext, "Authentication failed. ${it.localizedMessage}",
+                    Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun signIn() {
@@ -92,6 +144,13 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this@LoginActivity, MainActivity::class.java))
             finish()
         }
+    }
+
+    private fun isEmailValid(email: String?): Boolean {
+        val expression = "^[\\w.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$"
+        val pattern: Pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
+        val matcher: Matcher = pattern.matcher(email.toString())
+        return matcher.matches()
     }
 
     companion object {
