@@ -3,6 +3,9 @@ package com.deva.bangkit_capstoneproject.chat
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deva.bangkit_capstoneproject.LoginActivity
@@ -37,6 +40,8 @@ class ChatActivity : AppCompatActivity() {
             setLogo(R.drawable.traveloka_chatbot_logo_30)
         }
 
+        hideSendButton(true)
+
         auth = Firebase.auth
         val firebaseUser = auth.currentUser
         if (firebaseUser == null) {
@@ -48,6 +53,25 @@ class ChatActivity : AppCompatActivity() {
 
         db = Firebase.database
         val messagesRef = db.reference.child(MESSAGES_CHILD)
+
+        binding.messageEditText.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int,
+                                           count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int,
+                                       before: Int, count: Int) {
+                if(s.isEmpty()){
+                    hideSendButton(true)
+                } else{
+                    hideSendButton(false)
+                }
+            }
+        })
 
         binding.sendButton.setOnClickListener {
             val friendlyMessage = Message(
@@ -73,6 +97,14 @@ class ChatActivity : AppCompatActivity() {
             .build()
         adapter = ChatAdapter(options, firebaseUser.displayName)
         binding.rvChat.adapter = adapter
+    }
+
+    private fun hideSendButton(isTextEmpty:Boolean){
+        if(isTextEmpty){
+            binding.sendButton.visibility = View.GONE
+        } else{
+            binding.sendButton.visibility = View.VISIBLE
+        }
     }
 
     public override fun onResume() {

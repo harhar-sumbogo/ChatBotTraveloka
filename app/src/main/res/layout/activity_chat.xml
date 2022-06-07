@@ -43,7 +43,7 @@
             android:padding="10dp"
             android:src="@drawable/ic_send"
             android:background="@drawable/edit_text_shadow"
-            android:contentDescription="@string/send" />
+            android:contentDescription="@string/send"/>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
