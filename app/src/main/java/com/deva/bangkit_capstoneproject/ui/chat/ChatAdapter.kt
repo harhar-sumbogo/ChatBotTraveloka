@@ -1,4 +1,4 @@
-package com.deva.bangkit_capstoneproject.chat
+package com.deva.bangkit_capstoneproject.ui.chat
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

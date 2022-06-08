@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".chat.ChatActivity"
+            android:name="com.deva.bangkit_capstoneproject.ui.chat.ChatActivity"
             android:exported="false" />
         <activity
             android:name=".RegisterActivity"
@@ -33,7 +33,7 @@
             android:exported="false"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.main.MainActivity"
             android:exported="false"/>
     </application>
 
