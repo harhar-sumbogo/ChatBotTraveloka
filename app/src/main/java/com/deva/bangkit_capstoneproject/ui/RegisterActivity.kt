@@ -1,4 +1,4 @@
-package com.deva.bangkit_capstoneproject
+package com.deva.bangkit_capstoneproject.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -27,7 +27,7 @@ class RegisterActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         binding.tvToLogin.setOnClickListener {
-            val i = Intent(this,LoginActivity::class.java)
+            val i = Intent(this, LoginActivity::class.java)
             startActivity(i)
         }
 

@@ -1,4 +1,4 @@
-package com.deva.bangkit_capstoneproject.response
+package com.deva.bangkit_capstoneproject.core.data.remote.response
 
 import com.google.firebase.database.IgnoreExtraProperties
 

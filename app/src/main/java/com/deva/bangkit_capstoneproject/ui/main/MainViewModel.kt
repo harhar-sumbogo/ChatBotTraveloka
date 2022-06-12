@@ -4,5 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.deva.bangkit_capstoneproject.core.ChatRepository
 
 class MainViewModel (private val chatRepository: ChatRepository): ViewModel() {
-    fun saveToken(token: String) = chatRepository.saveToken(token)
+    fun createUser(token: String) = chatRepository.createUser(token)
+
+    fun createGroup() = chatRepository.createGroup()
 }

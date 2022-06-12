@@ -1,4 +1,4 @@
-package com.deva.bangkit_capstoneproject
+package com.deva.bangkit_capstoneproject.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatDelegate
+import com.deva.bangkit_capstoneproject.R
 import com.deva.bangkit_capstoneproject.ui.main.MainActivity
 
 @SuppressLint("CustomSplashScreen")

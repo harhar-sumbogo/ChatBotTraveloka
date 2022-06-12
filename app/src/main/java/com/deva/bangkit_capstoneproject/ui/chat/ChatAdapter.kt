@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.deva.bangkit_capstoneproject.R
 import com.deva.bangkit_capstoneproject.databinding.CardMessageBotBinding
 import com.deva.bangkit_capstoneproject.databinding.CardMessageUserBinding
-import com.deva.bangkit_capstoneproject.response.Message
+import com.deva.bangkit_capstoneproject.core.data.remote.response.Message
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 

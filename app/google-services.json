@@ -1,50 +1,33 @@
 {
   "project_info": {
-    "project_number": "639577604375",
-    "firebase_url": "https://bangkit-capstoneproject-default-rtdb.firebaseio.com",
-    "project_id": "bangkit-capstoneproject",
-    "storage_bucket": "bangkit-capstoneproject.appspot.com"
+    "project_number": "857711396557",
+    "project_id": "trvlk-chatbot-c22-cb01",
+    "storage_bucket": "trvlk-chatbot-c22-cb01.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:639577604375:android:905c43fe8e5edfd0dab752",
+        "mobilesdk_app_id": "1:857711396557:android:c7c8b80b3225e02fbd8b84",
         "android_client_info": {
           "package_name": "com.deva.bangkit_capstoneproject"
         }
       },
       "oauth_client": [
         {
-          "client_id": "639577604375-g22029c7nqp9bblea1pt0v8kj4e3e9fe.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.deva.bangkit_capstoneproject",
-            "certificate_hash": "c79424f9aaeb3745ff3761b2bf610dd7c54af6fc"
-          }
-        },
-        {
-          "client_id": "639577604375-g6ogo46qo4rii969pvuisesj4ss9jpcq.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.deva.bangkit_capstoneproject",
-            "certificate_hash": "63b35008b32f39e2c0159d328159b1272da9d61a"
-          }
-        },
-        {
-          "client_id": "639577604375-o8jf7ekjk6s15htrgm9g7nh7pmsuhag5.apps.googleusercontent.com",
+          "client_id": "857711396557-ejve464rrfm0j1s9hs78snk3ktgajtvi.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDc3ycB4rB0tOPz9hSzQuo1gOb4HLFLOuM"
+          "current_key": "AIzaSyCPLXZtm6zSiZ5-JMtQTK9ZztMg-oSsnL4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "639577604375-o8jf7ekjk6s15htrgm9g7nh7pmsuhag5.apps.googleusercontent.com",
+              "client_id": "857711396557-ejve464rrfm0j1s9hs78snk3ktgajtvi.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

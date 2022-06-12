@@ -7,11 +7,15 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.deva.bangkit_capstoneproject.LoginActivity
+import com.deva.bangkit_capstoneproject.ui.LoginActivity
 import com.deva.bangkit_capstoneproject.R
 import com.deva.bangkit_capstoneproject.databinding.ActivityChatBinding
-import com.deva.bangkit_capstoneproject.response.Message
+import com.deva.bangkit_capstoneproject.core.data.remote.response.Message
+import com.deva.bangkit_capstoneproject.core.di.Injection
+import com.deva.bangkit_capstoneproject.ui.ViewModelFactory
+import com.deva.bangkit_capstoneproject.ui.main.MainViewModel
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -25,12 +29,16 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChatBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseDatabase
+    private lateinit var viewModel: ChatViewModel
     private lateinit var adapter: ChatAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val chatRepository = Injection.provideRepository(this)
+        viewModel = ViewModelProvider(this, ViewModelFactory(chatRepository))[ChatViewModel::class.java]
 
         supportActionBar?.apply {
             title = "  Traveloka Bot"
@@ -48,7 +56,6 @@ class ChatActivity : AppCompatActivity() {
             // Not signed in, launch the Login activity
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
-            return
         }
 
         db = Firebase.database
@@ -74,17 +81,20 @@ class ChatActivity : AppCompatActivity() {
         })
 
         binding.sendButton.setOnClickListener {
-            val friendlyMessage = Message(
-                binding.messageEditText.text.toString(),
-                firebaseUser.displayName.toString(),
-                firebaseUser.photoUrl.toString(),
-                Date().time
-            )
-            messagesRef.push().setValue(friendlyMessage) { error, _ ->
-                if (error != null) {
-                    Toast.makeText(this, getString(R.string.send_error) + error.message, Toast.LENGTH_SHORT).show()
-                }
-            }
+//            val friendlyMessage = Message(
+//                binding.messageEditText.text.toString(),
+//                firebaseUser.displayName.toString(),
+//                firebaseUser.photoUrl.toString(),
+//                Date().time
+//            )
+//            messagesRef.push().setValue(friendlyMessage) { error, _ ->
+//                if (error != null) {
+//                    Toast.makeText(this, getString(R.string.send_error) + error.message, Toast.LENGTH_SHORT).show()
+//                }
+//            }
+
+            val message = binding.messageEditText.text.toString()
+            viewModel.sendMessage(message)
             binding.messageEditText.setText("")
         }
 
@@ -95,7 +105,7 @@ class ChatActivity : AppCompatActivity() {
         val options = FirebaseRecyclerOptions.Builder<Message>()
             .setQuery(messagesRef, Message::class.java)
             .build()
-        adapter = ChatAdapter(options, firebaseUser.displayName)
+        adapter = ChatAdapter(options, firebaseUser?.displayName)
         binding.rvChat.adapter = adapter
     }
 

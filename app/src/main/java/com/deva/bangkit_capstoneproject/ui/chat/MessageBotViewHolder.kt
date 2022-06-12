@@ -3,7 +3,7 @@ package com.deva.bangkit_capstoneproject.ui.chat
 import android.text.format.DateUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.deva.bangkit_capstoneproject.databinding.CardMessageBotBinding
-import com.deva.bangkit_capstoneproject.response.Message
+import com.deva.bangkit_capstoneproject.core.data.remote.response.Message
 
 class MessageBotViewHolder(private val binding: CardMessageBotBinding) : RecyclerView.ViewHolder
     (binding.root) {

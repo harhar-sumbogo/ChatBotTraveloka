@@ -1,4 +1,4 @@
-package com.deva.bangkit_capstoneproject
+package com.deva.bangkit_capstoneproject.ui
 
 import android.app.Activity
 import android.content.Intent
@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import com.deva.bangkit_capstoneproject.R
 import com.deva.bangkit_capstoneproject.databinding.ActivityLoginBinding
 import com.deva.bangkit_capstoneproject.ui.main.MainActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -35,7 +36,7 @@ class LoginActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         binding.tvToRegister.setOnClickListener {
-            val i = Intent(this,RegisterActivity::class.java)
+            val i = Intent(this, RegisterActivity::class.java)
             startActivity(i)
         }
 
@@ -53,9 +54,7 @@ class LoginActivity : AppCompatActivity() {
             signIn()
         }
 
-        val loginButton: Button = findViewById(R.id.btn_login)
-
-        loginButton.setOnClickListener {
+        binding.btnLogin.setOnClickListener {
             performLogin()
         }
     }
@@ -68,15 +67,12 @@ class LoginActivity : AppCompatActivity() {
         if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Please fill all fields!", Toast.LENGTH_SHORT)
                 .show()
-            return
         } else if(!isEmailValid(email)){
             Toast.makeText(this, "Must valid email", Toast.LENGTH_SHORT)
                 .show()
-            return
         } else if (password.length<6){
             Toast.makeText(this, "Password at least 6 character", Toast.LENGTH_SHORT)
                 .show()
-            return
         }
 
         auth.signInWithEmailAndPassword(email, password)

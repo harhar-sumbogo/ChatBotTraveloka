@@ -4,9 +4,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import com.deva.bangkit_capstoneproject.LoginActivity
+import com.deva.bangkit_capstoneproject.ui.LoginActivity
 import com.deva.bangkit_capstoneproject.R
+import com.deva.bangkit_capstoneproject.core.data.Result
 import com.deva.bangkit_capstoneproject.core.di.Injection
 import com.deva.bangkit_capstoneproject.ui.chat.ChatActivity
 import com.deva.bangkit_capstoneproject.databinding.ActivityMainBinding
@@ -37,8 +39,20 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnChat.setOnClickListener {
-            val i = Intent(this, ChatActivity::class.java)
-            startActivity(i)
+            viewModel.createGroup().observe(this) {
+                when(it) {
+                    is Result.Success -> {
+                        val i = Intent(this, ChatActivity::class.java)
+                        startActivity(i)
+                    }
+                    is Result.Loading -> {
+
+                    }
+                    is Result.Error -> {
+                        Toast.makeText(this, it.error, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
         }
 
         binding.btnSignOut.setOnClickListener {
@@ -54,7 +68,7 @@ class MainActivity : AppCompatActivity() {
         }else {
             firebaseUser.getIdToken(true).addOnSuccessListener {
                 Log.d("BEARER_TOKEN", "onCreate: ${it.token}")
-                it.token?.let { token -> viewModel.saveToken(token) }
+                it.token?.let { token -> viewModel.createUser(token) }
             }
         }
     }
