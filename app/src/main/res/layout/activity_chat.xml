@@ -48,7 +48,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_chat"
-        android:layout_width="409dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
@@ -56,6 +56,5 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/card_message_user" />
 </androidx.constraintlayout.widget.ConstraintLayout>

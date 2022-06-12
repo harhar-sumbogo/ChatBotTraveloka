@@ -1,22 +1,20 @@
 package com.deva.bangkit_capstoneproject.ui.chat
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.deva.bangkit_capstoneproject.ui.LoginActivity
 import com.deva.bangkit_capstoneproject.R
-import com.deva.bangkit_capstoneproject.databinding.ActivityChatBinding
-import com.deva.bangkit_capstoneproject.core.data.remote.response.Message
+import com.deva.bangkit_capstoneproject.core.data.Result
 import com.deva.bangkit_capstoneproject.core.di.Injection
+import com.deva.bangkit_capstoneproject.core.domain.model.MessageModel
+import com.deva.bangkit_capstoneproject.databinding.ActivityChatBinding
+import com.deva.bangkit_capstoneproject.ui.LoginActivity
 import com.deva.bangkit_capstoneproject.ui.ViewModelFactory
-import com.deva.bangkit_capstoneproject.ui.main.MainViewModel
-import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
@@ -30,7 +28,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseDatabase
     private lateinit var viewModel: ChatViewModel
-    private lateinit var adapter: ChatAdapter
+    private lateinit var adapter: ChatListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +36,8 @@ class ChatActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val chatRepository = Injection.provideRepository(this)
-        viewModel = ViewModelProvider(this, ViewModelFactory(chatRepository))[ChatViewModel::class.java]
+        viewModel =
+            ViewModelProvider(this, ViewModelFactory(chatRepository))[ChatViewModel::class.java]
 
         supportActionBar?.apply {
             title = "  Traveloka Bot"
@@ -66,35 +65,46 @@ class ChatActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable) {
             }
 
-            override fun beforeTextChanged(s: CharSequence, start: Int,
-                                           count: Int, after: Int) {
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int,
+                count: Int, after: Int
+            ) {
             }
 
-            override fun onTextChanged(s: CharSequence, start: Int,
-                                       before: Int, count: Int) {
-                if(s.isEmpty()){
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
+                if (s.isEmpty()) {
                     hideSendButton(true)
-                } else{
+                } else {
                     hideSendButton(false)
                 }
             }
         })
 
         binding.sendButton.setOnClickListener {
-//            val friendlyMessage = Message(
-//                binding.messageEditText.text.toString(),
-//                firebaseUser.displayName.toString(),
-//                firebaseUser.photoUrl.toString(),
-//                Date().time
-//            )
-//            messagesRef.push().setValue(friendlyMessage) { error, _ ->
-//                if (error != null) {
-//                    Toast.makeText(this, getString(R.string.send_error) + error.message, Toast.LENGTH_SHORT).show()
-//                }
-//            }
-
             val message = binding.messageEditText.text.toString()
-            viewModel.sendMessage(message)
+            viewModel.sendMessage(
+                MessageModel(
+                    user = firebaseUser?.displayName.toString(),
+                    message = message
+                ).also {
+                    adapter.addChat(it)
+                }
+            ).observe(this) {
+                when (it) {
+                    is Result.Success -> {
+                        adapter.addChat(it.data)
+                    }
+                    is Result.Error -> {
+
+                    }
+                    is Result.Loading -> {
+
+                    }
+                }
+            }
             binding.messageEditText.setText("")
         }
 
@@ -102,28 +112,16 @@ class ChatActivity : AppCompatActivity() {
         manager.stackFromEnd = true
         binding.rvChat.layoutManager = manager
 
-        val options = FirebaseRecyclerOptions.Builder<Message>()
-            .setQuery(messagesRef, Message::class.java)
-            .build()
-        adapter = ChatAdapter(options, firebaseUser?.displayName)
+        adapter = ChatListAdapter(firebaseUser?.displayName)
         binding.rvChat.adapter = adapter
     }
 
-    private fun hideSendButton(isTextEmpty:Boolean){
-        if(isTextEmpty){
+    private fun hideSendButton(isTextEmpty: Boolean) {
+        if (isTextEmpty) {
             binding.sendButton.visibility = View.GONE
-        } else{
+        } else {
             binding.sendButton.visibility = View.VISIBLE
         }
-    }
-
-    public override fun onResume() {
-        super.onResume()
-        adapter.startListening()
-    }
-    public override fun onPause() {
-        adapter.stopListening()
-        super.onPause()
     }
 
     override fun onSupportNavigateUp(): Boolean {

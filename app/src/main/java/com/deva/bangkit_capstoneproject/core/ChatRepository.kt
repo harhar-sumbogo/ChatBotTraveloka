@@ -10,6 +10,8 @@ import com.deva.bangkit_capstoneproject.core.data.remote.response.GroupCreationR
 import com.deva.bangkit_capstoneproject.core.data.remote.response.MessageResponse
 import com.deva.bangkit_capstoneproject.core.data.remote.response.Payload
 import com.deva.bangkit_capstoneproject.core.data.remote.response.UserCreationResponse
+import com.deva.bangkit_capstoneproject.core.domain.model.MessageModel
+import com.deva.bangkit_capstoneproject.core.utils.DataMapper
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -79,12 +81,8 @@ class ChatRepository private constructor(
         return result
     }
 
-    fun sendMessage(message: String, tag: String? = null): LiveData<Result<Payload>> {
-        val messageRequest = MessageRequest(
-            message, tag
-        )
-
-        val result = MutableLiveData<Result<Payload>>()
+    fun sendMessage(messageRequest: MessageRequest): LiveData<Result<MessageModel>> {
+        val result = MutableLiveData<Result<MessageModel>>()
 
         result.value = Result.Loading
         val service = apiService.sendMessage("Bearer $token", messageRequest)
@@ -96,7 +94,9 @@ class ChatRepository private constructor(
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
-                        result.value = Result.Success(responseBody.payload)
+                        result.value = Result.Success(DataMapper.responseToModel(
+                            responseBody.payload
+                        ))
                     }
                 }else {
                     result.value = Result.Error("Error")
