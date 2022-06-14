@@ -18,17 +18,15 @@ import com.deva.bangkit_capstoneproject.ui.ViewModelFactory
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import java.util.*
 
 class ChatActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityChatBinding
     private lateinit var auth: FirebaseAuth
-    private lateinit var db: FirebaseDatabase
     private lateinit var viewModel: ChatViewModel
     private lateinit var adapter: ChatListAdapter
+    private var tag: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,9 +54,6 @@ class ChatActivity : AppCompatActivity() {
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }
-
-        db = Firebase.database
-        val messagesRef = db.reference.child(MESSAGES_CHILD)
 
         binding.messageEditText.addTextChangedListener(object : TextWatcher {
 
@@ -88,7 +83,8 @@ class ChatActivity : AppCompatActivity() {
             viewModel.sendMessage(
                 MessageModel(
                     user = firebaseUser?.displayName.toString(),
-                    message = message
+                    message = message,
+                    tag = tag
                 ).also {
                     adapter.addChat(it)
                 }
@@ -96,6 +92,7 @@ class ChatActivity : AppCompatActivity() {
                 when (it) {
                     is Result.Success -> {
                         adapter.addChat(it.data)
+                        tag = it.data.tag
                     }
                     is Result.Error -> {
 
@@ -127,9 +124,5 @@ class ChatActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return super.onSupportNavigateUp()
-    }
-
-    companion object {
-        const val MESSAGES_CHILD = "messages"
     }
 }
