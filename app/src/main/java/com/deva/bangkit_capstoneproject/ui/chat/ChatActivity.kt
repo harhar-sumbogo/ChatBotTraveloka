@@ -4,10 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.deva.bangkit_capstoneproject.R
 import com.deva.bangkit_capstoneproject.core.data.Result
 import com.deva.bangkit_capstoneproject.core.di.Injection
@@ -110,6 +112,14 @@ class ChatActivity : AppCompatActivity() {
         binding.rvChat.layoutManager = manager
 
         adapter = ChatListAdapter(firebaseUser?.displayName)
+
+        adapter.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
+            override fun onChanged() {
+                (binding.rvChat.layoutManager as LinearLayoutManager).scrollToPosition(adapter
+                    .itemCount - 1)
+            }
+        })
+
         binding.rvChat.adapter = adapter
     }
 

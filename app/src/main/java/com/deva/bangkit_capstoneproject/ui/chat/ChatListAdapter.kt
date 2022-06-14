@@ -1,5 +1,6 @@
 package com.deva.bangkit_capstoneproject.ui.chat
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -16,9 +17,11 @@ class ChatListAdapter(
 ): ListAdapter<MessageModel, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
     private val chatList = ArrayList<MessageModel>()
 
+    @SuppressLint("NotifyDataSetChanged")
     fun addChat(messageModel: MessageModel) {
         chatList.add(messageModel)
         submitList(chatList)
+        notifyDataSetChanged()
     }
 
     override fun getItemViewType(position: Int): Int {
