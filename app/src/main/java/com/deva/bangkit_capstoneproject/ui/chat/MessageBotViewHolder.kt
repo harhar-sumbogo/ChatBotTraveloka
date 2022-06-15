@@ -9,14 +9,7 @@ class MessageBotViewHolder(private val binding: CardMessageBotBinding) : Recycle
     (binding.root) {
     fun bind(message: MessageModel) {
         with(message) {
-            val text = this.message +
-                    if (payload != null) {
-                        ":\n" + payload.mapIndexed { index, item ->
-                            "${index + 1} $item"
-                        }.joinToString("\n")
-                    } else ""
-
-            binding.message.text = text
+            binding.message.text = this.message
             binding.timestamp.text = DateUtils.getRelativeTimeSpanString(id.toLong())
         }
     }

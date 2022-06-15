@@ -7,6 +7,9 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -56,6 +59,22 @@ class ChatActivity : AppCompatActivity() {
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }
+
+        val manager = LinearLayoutManager(this)
+        manager.stackFromEnd = true
+        binding.rvChat.layoutManager = manager
+
+        adapter = ChatListAdapter(firebaseUser?.displayName)
+
+        adapter.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
+            override fun onChanged() {
+                (binding.rvChat.layoutManager as LinearLayoutManager).scrollToPosition(adapter
+                    .itemCount - 1)
+            }
+        })
+
+        binding.rvChat.adapter = adapter
+
 
         binding.messageEditText.addTextChangedListener(object : TextWatcher {
 
@@ -109,20 +128,21 @@ class ChatActivity : AppCompatActivity() {
             binding.messageEditText.setText("")
         }
 
-        val manager = LinearLayoutManager(this)
-        manager.stackFromEnd = true
-        binding.rvChat.layoutManager = manager
 
-        adapter = ChatListAdapter(firebaseUser?.displayName)
+        viewModel.loadAllMessage().observeOnce(this) {
+            it.map { message ->
+                adapter.addChat(message)
+            }
+        }
+    }
 
-        adapter.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
-            override fun onChanged() {
-                (binding.rvChat.layoutManager as LinearLayoutManager).scrollToPosition(adapter
-                    .itemCount - 1)
+    fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
+        observe(lifecycleOwner, object : Observer<T> {
+            override fun onChanged(t: T?) {
+                observer.onChanged(t)
+                removeObserver(this)
             }
         })
-
-        binding.rvChat.adapter = adapter
     }
 
     private fun hideSendButton(isTextEmpty: Boolean) {

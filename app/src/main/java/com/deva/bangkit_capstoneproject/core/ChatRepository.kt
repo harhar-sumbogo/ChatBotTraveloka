@@ -2,26 +2,25 @@ package com.deva.bangkit_capstoneproject.core
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import com.deva.bangkit_capstoneproject.core.data.Result
-import com.deva.bangkit_capstoneproject.core.data.local.LoginSession
+import com.deva.bangkit_capstoneproject.core.data.local.room.ChatDatabase
 import com.deva.bangkit_capstoneproject.core.data.remote.api.ApiService
 import com.deva.bangkit_capstoneproject.core.data.remote.request.MessageRequest
 import com.deva.bangkit_capstoneproject.core.data.remote.response.GroupCreationResponse
 import com.deva.bangkit_capstoneproject.core.data.remote.response.MessageResponse
-import com.deva.bangkit_capstoneproject.core.data.remote.response.Payload
 import com.deva.bangkit_capstoneproject.core.data.remote.response.UserCreationResponse
 import com.deva.bangkit_capstoneproject.core.domain.model.MessageModel
+import com.deva.bangkit_capstoneproject.core.utils.AppExecutors
 import com.deva.bangkit_capstoneproject.core.utils.DataMapper
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class ChatRepository private constructor(
-    private val loginSession: LoginSession,
-    private val apiService: ApiService
+    private val database: ChatDatabase,
+    private val apiService: ApiService,
+    private val appExecutors: AppExecutors
 ) {
     private var token: String? = null
 
@@ -81,8 +80,19 @@ class ChatRepository private constructor(
         return result
     }
 
-    fun sendMessage(messageRequest: MessageRequest): LiveData<Result<MessageModel>> {
+    fun loadAllMessage() : LiveData<List<MessageModel>> {
+        return Transformations.map(database.chatDao().getAllChat()) {
+            DataMapper.mapEntitiesToDomain(it)
+        }
+    }
+
+    fun sendMessage(message: MessageModel): LiveData<Result<MessageModel>> {
+        appExecutors.diskIO().execute {
+            database.chatDao().insertChat(DataMapper.modelToEntity(message))
+        }
+
         val result = MutableLiveData<Result<MessageModel>>()
+        val messageRequest = DataMapper.modelToRequest(message)
 
         result.value = Result.Loading
         val service = apiService.sendMessage("Bearer $token", messageRequest)
@@ -97,6 +107,11 @@ class ChatRepository private constructor(
                         result.value = Result.Success(DataMapper.responseToModel(
                             responseBody.payload
                         ))
+                        appExecutors.diskIO().execute {
+                            database.chatDao().insertChat(DataMapper.responseToEntity(
+                                responseBody.payload
+                            ))
+                        }
                     }
                 }else {
                     result.value = Result.Error("Error")
@@ -114,11 +129,12 @@ class ChatRepository private constructor(
         @Volatile
         private var instance: ChatRepository? = null
         fun getInstance(
-            loginSession: LoginSession,
-            apiService: ApiService
+            database: ChatDatabase,
+            apiService: ApiService,
+            appExecutors: AppExecutors
         ): ChatRepository =
             instance ?: synchronized(this) {
-                instance ?: ChatRepository(loginSession,apiService)
+                instance ?: ChatRepository(database, apiService, appExecutors)
             }.also { instance = it }
     }
 }

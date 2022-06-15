@@ -10,6 +10,8 @@ import com.deva.bangkit_capstoneproject.core.utils.DataMapper
 
 class ChatViewModel(private val chatRepository: ChatRepository): ViewModel() {
     fun sendMessage(messageModel: MessageModel): LiveData<Result<MessageModel>> {
-        return chatRepository.sendMessage(DataMapper.modelToRequest(messageModel))
+        return chatRepository.sendMessage(messageModel)
     }
+
+    fun loadAllMessage() = chatRepository.loadAllMessage()
 }
