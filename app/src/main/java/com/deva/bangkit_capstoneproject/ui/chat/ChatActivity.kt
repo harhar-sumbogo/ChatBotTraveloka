@@ -93,8 +93,10 @@ class ChatActivity : AppCompatActivity() {
             ).observe(this) {
                 when (it) {
                     is Result.Success -> {
-                        adapter.addChat(it.data)
-                        tag = it.data.tag
+                        with(it) {
+                            adapter.addChat(data)
+                            tag = data.tag
+                        }
                     }
                     is Result.Error -> {
 

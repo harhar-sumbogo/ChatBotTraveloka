@@ -56,5 +56,5 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/card_message_user" />
+        tools:listitem="@layout/list_recommendation" />
 </androidx.constraintlayout.widget.ConstraintLayout>

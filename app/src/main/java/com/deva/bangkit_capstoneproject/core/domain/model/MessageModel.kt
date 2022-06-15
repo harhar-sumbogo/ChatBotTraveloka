@@ -8,4 +8,5 @@ data class MessageModel(
     val user: String,
     val message: String,
     val tag: String? = null,
+    val payload: ArrayList<String>? = null
 )
