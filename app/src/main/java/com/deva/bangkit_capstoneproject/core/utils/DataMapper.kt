@@ -1,5 +1,7 @@
 package com.deva.bangkit_capstoneproject.core.utils
 
+import android.util.Log
+import android.util.Patterns
 import com.deva.bangkit_capstoneproject.core.data.local.entity.MessageEntity
 import com.deva.bangkit_capstoneproject.core.data.remote.request.MessageRequest
 import com.deva.bangkit_capstoneproject.core.data.remote.response.Payload
