@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
@@ -15,14 +14,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.deva.bangkit_capstoneproject.R
 import com.deva.bangkit_capstoneproject.core.data.Result
-import com.deva.bangkit_capstoneproject.core.di.Injection
 import com.deva.bangkit_capstoneproject.core.domain.model.MessageModel
+import com.deva.bangkit_capstoneproject.core.ui.ViewModelFactory
 import com.deva.bangkit_capstoneproject.databinding.ActivityChatBinding
 import com.deva.bangkit_capstoneproject.ui.LoginActivity
-import com.deva.bangkit_capstoneproject.ui.ViewModelFactory
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 
 class ChatActivity : AppCompatActivity() {
@@ -32,15 +29,15 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var viewModel: ChatViewModel
     private lateinit var adapter: ChatListAdapter
     private var tag: String? = null
+    private lateinit var token: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val chatRepository = Injection.provideRepository(this)
-        viewModel =
-            ViewModelProvider(this, ViewModelFactory(chatRepository))[ChatViewModel::class.java]
+        val factory = ViewModelFactory.getInstance(this)
+        viewModel = ViewModelProvider(this, factory)[ChatViewModel::class.java]
 
         supportActionBar?.apply {
             title = "  Traveloka Bot"
@@ -58,6 +55,10 @@ class ChatActivity : AppCompatActivity() {
             // Not signed in, launch the Login activity
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
+        } else {
+            firebaseUser.getIdToken(true).addOnSuccessListener {
+                it.token?.let { bearerToken -> token = bearerToken }
+            }
         }
 
         val manager = LinearLayoutManager(this)
@@ -66,10 +67,12 @@ class ChatActivity : AppCompatActivity() {
 
         adapter = ChatListAdapter(firebaseUser?.displayName)
 
-        adapter.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
+        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onChanged() {
-                (binding.rvChat.layoutManager as LinearLayoutManager).scrollToPosition(adapter
-                    .itemCount - 1)
+                (binding.rvChat.layoutManager as LinearLayoutManager).scrollToPosition(
+                    adapter
+                        .itemCount - 1
+                )
             }
         })
 
@@ -108,7 +111,8 @@ class ChatActivity : AppCompatActivity() {
                     tag = tag
                 ).also {
                     adapter.addChat(it)
-                }
+                },
+                token
             ).observe(this) {
                 when (it) {
                     is Result.Success -> {
@@ -136,7 +140,7 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
-    fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
+    private fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
         observe(lifecycleOwner, object : Observer<T> {
             override fun onChanged(t: T?) {
                 observer.onChanged(t)

@@ -4,14 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.deva.bangkit_capstoneproject.core.ChatRepository
 import com.deva.bangkit_capstoneproject.core.data.Result
-import com.deva.bangkit_capstoneproject.core.data.remote.response.Payload
 import com.deva.bangkit_capstoneproject.core.domain.model.MessageModel
-import com.deva.bangkit_capstoneproject.core.utils.DataMapper
+import com.deva.bangkit_capstoneproject.core.domain.usecase.ChatUseCase
 
-class ChatViewModel(private val chatRepository: ChatRepository): ViewModel() {
-    fun sendMessage(messageModel: MessageModel): LiveData<Result<MessageModel>> {
-        return chatRepository.sendMessage(messageModel)
+class ChatViewModel(private val chatUseCase: ChatUseCase) : ViewModel() {
+    fun sendMessage(messageModel: MessageModel, token: String): LiveData<Result<MessageModel>> {
+        return chatUseCase.sendMessage(messageModel, token)
     }
 
-    fun loadAllMessage() = chatRepository.loadAllMessage()
+    fun loadAllMessage() = chatUseCase.loadCacheMessage()
 }

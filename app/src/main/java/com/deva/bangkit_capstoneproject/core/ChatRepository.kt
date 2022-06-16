@@ -6,11 +6,11 @@ import androidx.lifecycle.Transformations
 import com.deva.bangkit_capstoneproject.core.data.Result
 import com.deva.bangkit_capstoneproject.core.data.local.room.ChatDatabase
 import com.deva.bangkit_capstoneproject.core.data.remote.api.ApiService
-import com.deva.bangkit_capstoneproject.core.data.remote.request.MessageRequest
 import com.deva.bangkit_capstoneproject.core.data.remote.response.GroupCreationResponse
 import com.deva.bangkit_capstoneproject.core.data.remote.response.MessageResponse
 import com.deva.bangkit_capstoneproject.core.data.remote.response.UserCreationResponse
 import com.deva.bangkit_capstoneproject.core.domain.model.MessageModel
+import com.deva.bangkit_capstoneproject.core.domain.repository.IChatRepository
 import com.deva.bangkit_capstoneproject.core.utils.AppExecutors
 import com.deva.bangkit_capstoneproject.core.utils.DataMapper
 import retrofit2.Call
@@ -21,15 +21,12 @@ class ChatRepository private constructor(
     private val database: ChatDatabase,
     private val apiService: ApiService,
     private val appExecutors: AppExecutors
-) {
-    private var token: String? = null
-
-    fun createUser(token: String): LiveData<String> {
+): IChatRepository {
+    override fun createUser(token: String): LiveData<String> {
         val result = MutableLiveData<String>()
 
-        this.token = token
         val service = apiService.createUser("Bearer $token")
-        service.enqueue(object: Callback<UserCreationResponse> {
+        service.enqueue(object : Callback<UserCreationResponse> {
             override fun onResponse(
                 call: Call<UserCreationResponse>,
                 response: Response<UserCreationResponse>
@@ -39,7 +36,7 @@ class ChatRepository private constructor(
                     if (responseBody != null) {
                         result.value = responseBody.message
                     }
-                }else {
+                } else {
                     result.value = "Error"
                 }
             }
@@ -52,7 +49,7 @@ class ChatRepository private constructor(
         return result
     }
 
-    fun createGroup(): LiveData<Result<String>> {
+    override fun createGroup(token: String): LiveData<Result<String>> {
         val result = MutableLiveData<Result<String>>()
 
         result.value = Result.Loading
@@ -67,7 +64,7 @@ class ChatRepository private constructor(
                     if (responseBody != null) {
                         result.value = Result.Success(responseBody.message)
                     }
-                }else {
+                } else {
                     result.value = Result.Error("Error")
                 }
             }
@@ -80,20 +77,19 @@ class ChatRepository private constructor(
         return result
     }
 
-    fun loadAllMessage() : LiveData<List<MessageModel>> {
+    override fun loadCacheMessage(): LiveData<List<MessageModel>> {
         return Transformations.map(database.chatDao().getAllChat()) {
             DataMapper.mapEntitiesToDomain(it)
         }
     }
 
-    fun logout() {
-        token = null
+    override fun deleteCacheChat() {
         appExecutors.diskIO().execute {
             database.chatDao().resetChat()
         }
     }
 
-    fun sendMessage(message: MessageModel): LiveData<Result<MessageModel>> {
+    override fun sendMessage(message: MessageModel, token: String): LiveData<Result<MessageModel>> {
         appExecutors.diskIO().execute {
             database.chatDao().insertChat(DataMapper.modelToEntity(message))
         }
@@ -111,16 +107,20 @@ class ChatRepository private constructor(
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
-                        result.value = Result.Success(DataMapper.responseToModel(
-                            responseBody.payload
-                        ))
-                        appExecutors.diskIO().execute {
-                            database.chatDao().insertChat(DataMapper.responseToEntity(
+                        result.value = Result.Success(
+                            DataMapper.responseToModel(
                                 responseBody.payload
-                            ))
+                            )
+                        )
+                        appExecutors.diskIO().execute {
+                            database.chatDao().insertChat(
+                                DataMapper.responseToEntity(
+                                    responseBody.payload
+                                )
+                            )
                         }
                     }
-                }else {
+                } else {
                     result.value = Result.Error("Error")
                 }
             }

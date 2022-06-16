@@ -2,11 +2,12 @@ package com.deva.bangkit_capstoneproject.ui.main
 
 import androidx.lifecycle.ViewModel
 import com.deva.bangkit_capstoneproject.core.ChatRepository
+import com.deva.bangkit_capstoneproject.core.domain.usecase.ChatUseCase
 
-class MainViewModel (private val chatRepository: ChatRepository): ViewModel() {
-    fun createUser(token: String) = chatRepository.createUser(token)
+class MainViewModel (private val chatUseCase: ChatUseCase): ViewModel() {
+    fun createUser(token: String) = chatUseCase.createUser(token)
 
-    fun createGroup() = chatRepository.createGroup()
+    fun createGroup(token: String) = chatUseCase.createGroup(token)
 
-    fun logout() = chatRepository.logout()
+    fun deleteCacheChat() = chatUseCase.deleteCacheChat()
 }
