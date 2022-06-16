@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.deva.bangkit_capstoneproject">
+    package="com.traveloka.chatbot">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BangkitCapstoneProject">
         <activity
-            android:name=".ui.SplashActivity"
+            android:name="com.traveloka.chatbot.ui.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,18 +22,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.deva.bangkit_capstoneproject.ui.chat.ChatActivity"
+            android:name="com.traveloka.chatbot.ui.chat.ChatActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.RegisterActivity"
+            android:name="com.traveloka.chatbot.ui.RegisterActivity"
             android:exported="false"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".ui.LoginActivity"
+            android:name="com.traveloka.chatbot.ui.LoginActivity"
             android:exported="false"
             android:screenOrientation="nosensor" />
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name="com.traveloka.chatbot.ui.main.MainActivity"
             android:exported="false"/>
     </application>
 
