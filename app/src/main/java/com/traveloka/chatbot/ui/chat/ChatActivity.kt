@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
@@ -65,7 +66,7 @@ class ChatActivity : AppCompatActivity() {
         manager.stackFromEnd = true
         binding.rvChat.layoutManager = manager
 
-        adapter = ChatListAdapter(firebaseUser?.displayName)
+        adapter = ChatListAdapter(firebaseUser?.email)
 
         adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onChanged() {
@@ -106,7 +107,7 @@ class ChatActivity : AppCompatActivity() {
             val message = binding.messageEditText.text.toString()
             viewModel.sendMessage(
                 MessageModel(
-                    user = firebaseUser?.displayName.toString(),
+                    user = firebaseUser?.email.toString(),
                     message = message,
                     tag = tag
                 ).also {
