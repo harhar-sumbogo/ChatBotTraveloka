@@ -30,7 +30,7 @@ Mobile development contribute to the development of android-based mobile applica
 
 ### How to compile the project:
 <ol>
-  <li>Download or clone project</li>
+  <li>Fork project</li>
   <li>Generate SHA-1 in android studio terminal using command gradlew signingreport</li>
   <li>Contact one of contributor to add in firebase</li>
   <li>Contributor will send file google-services.json</li>
