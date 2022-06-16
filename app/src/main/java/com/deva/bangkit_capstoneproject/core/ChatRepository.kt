@@ -86,6 +86,13 @@ class ChatRepository private constructor(
         }
     }
 
+    fun logout() {
+        token = null
+        appExecutors.diskIO().execute {
+            database.chatDao().resetChat()
+        }
+    }
+
     fun sendMessage(message: MessageModel): LiveData<Result<MessageModel>> {
         appExecutors.diskIO().execute {
             database.chatDao().insertChat(DataMapper.modelToEntity(message))

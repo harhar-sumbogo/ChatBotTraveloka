@@ -15,4 +15,7 @@ interface ChatDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertChat(message: MessageEntity)
+
+    @Query("DELETE FROM chats")
+    fun resetChat()
 }

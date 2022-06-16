@@ -57,6 +57,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnSignOut.setOnClickListener {
             signOut()
+            viewModel.logout()
         }
 
         auth = Firebase.auth
