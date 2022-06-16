@@ -16,7 +16,7 @@ object DataMapper {
     fun responseToModel(payload: Payload, user: String = "BOT"): MessageModel {
         var message = payload.message
 
-        if (payload.tag in responseTagList) {
+        if (payload.tag in responseTagList && message.contains(":")) {
             val temp = payload.message.split(":")
             message = temp[0] + ":\n" + temp[1].trim().split("\n")
                 .mapIndexed { index, location ->
@@ -32,7 +32,7 @@ object DataMapper {
     }
 
     fun modelToRequest(messageModel: MessageModel) =
-        MessageRequest(messageModel.message, messageModel.tag)
+        MessageRequest(messageModel.message.lowercase(), messageModel.tag)
 
     fun modelToEntity(messageModel: MessageModel): MessageEntity =
         messageModel.let {
